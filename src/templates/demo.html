@@ -1,0 +1,115 @@
+<html lang="en">
+
+<head>
+    <title>Demo</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.less" type="text/less">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- icon -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+        integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <!-- Botstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../static/button.css">
+    <!-- Notify -->
+    <script src="https://rawgit.com/notifyjs/notifyjs/master/dist/notify.js"></script>
+    <!-- Socket -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js"></script>
+
+    <style>
+        body {
+            background-color: white;
+            max-width: 100%;
+            max-height: 10%;
+        }
+
+        .btn {
+            margin: 0 6px;
+            border: 2;
+            outline: none;
+            padding: 10px 14px;
+            border-radius: 6px;
+            border: 2px solid rgb(59,130,246);
+            background-color: rgb(255, 255, 255);
+            cursor: pointer;
+            
+            color: black;
+            font-size: 18px;
+
+        }
+
+        .active,
+        .btn:hover {
+            background-color: rgb(59,130,246);
+            color: white;
+        }
+        .model-option{
+            position: relative;
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .container{
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            flex-direction: column;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container ">
+        <div class="row">
+            <div class="logo">
+                <img src="../static/logo_crop.png" style="width:60px;height:40px;display: inline-block;">
+                <h3 style="display: inline-block;">MỘT SỐ PHƯƠNG PHÁP TRONG BÀI TOÁN CHỐNG GIẢ MẠO KHUÔN MẶT</h3>
+            </div>
+        </div>
+        
+        <div class="row model-option">
+            <button class="btn" style="vertical-align:middle">
+                <span>LBP</span></button>
+            <button class="btn" style="vertical-align:middle">
+                <span>Resnet50</span></button>
+            <button class="btn active" style="vertical-align:middle">
+                <span>AENet</span></button>
+            <button class="btn" style="vertical-align:middle">
+                <span>PS</span></button>
+            <button class="btn" style="vertical-align:middle">
+                <span>SSDG</span></button>
+            <button class="btn" style="vertical-align:middle">
+                <span>AD</span></button>
+            
+        </div>
+        <div class="row">
+            <div class="border">
+                <!-- <img src="face.jpg" style="width:640px;height:480px;"> -->
+                <img src="{{ url_for('video_feed') }}">
+            </div>
+        </div>
+    </div>
+    <script>
+        var bt_list = document.querySelectorAll(".btn");
+        bt_list.forEach((item,index) => {
+            var link = '/ajax?method=' + String(index+1)
+            item.addEventListener("click",async () => {
+                var selected = document.getElementsByClassName("active");
+                selected[0].className = selected[0].className.replace(" active", "");
+                item.className += " active";
+                var req = new XMLHttpRequest();
+                    await req.open('POST', link);
+                    req.send();
+            });
+            
+        })
+    </script>
+</body>
+
+</html>
